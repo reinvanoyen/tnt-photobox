@@ -1,31 +1,25 @@
-var $ = require( 'jquery' );
+"use strict";
+
 var utils = {};
 
-utils.loadImages = function( $images, callback ) {
+utils.loadImage = function( src, cb ) {
 
-	var amountLoaded = 0,
-		amountToLoad = $images.length
-	;
+	var img = new Image();
 
-	if( amountToLoad === 0 ) {
-		callback();
+	img.onload = function() {
+
+		cb( img );
 	}
 
-	$images.each( function() {
+	img.src = src;
+};
 
-		var image = new Image();
+utils.proxy = function( c, f ) {
 
-		image.onload = function() {
+	return function() {
 
-			amountLoaded++;
-
-			if( amountLoaded === amountToLoad ) {
-				callback();
-			}
-		}
-
-		image.src = $( this ).attr( 'src' );
-	} );
+		return f.apply( c, arguments );
+	};
 };
 
 module.exports = utils;

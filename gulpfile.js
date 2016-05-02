@@ -10,21 +10,16 @@ var
 	uglify = require('gulp-uglify')
 ;
 
-gulp.task( 'watch', function()
-{
-	watch( 'example/sass/*.scss', function()
-	{
+gulp.task( 'watch', function() {
+
+	watch( 'example/sass/*.scss', function() {
+
 		gulp.start( 'sass' );
 	} );
 
-	watch( 'example/example.js', function()
-	{
-		gulp.start( 'build-example' );
-	} );
+	watch( 'src/**/*.js', function() {
 
-	watch( 'src/**/*.js', function()
-	{
-		gulp.start( 'build-example' );
+		gulp.start( 'build' );
 	} );
 } );
 
@@ -36,11 +31,12 @@ gulp.task( 'sass', function() {
 	;
 } );
 
-gulp.task( 'build-example', function() {
-	return browserify( 'example/example.js')
+gulp.task( 'build', function() {
+	return browserify( 'src/example.js' )
+		.transform( 'babelify', { presets: ['es2015'] } )
 		.bundle()
-		.pipe( source( 'example-build.js' ) )
-		.pipe( gulp.dest( 'example' ) )
+		.pipe( source( 'example.js' ) )
+		.pipe( gulp.dest( 'build' ) )
 		.pipe( buffer() )
 		.pipe( uglify() )
 	;
