@@ -32,13 +32,16 @@ gulp.task( 'sass', function() {
 } );
 
 gulp.task( 'build', function() {
+
+	del( [ 'build/' ] );
+
 	return browserify( 'src/example.js' )
 		.transform( 'babelify', { presets: ['es2015'] } )
 		.bundle()
 		.pipe( source( 'example.js' ) )
-		.pipe( gulp.dest( 'build' ) )
 		.pipe( buffer() )
 		.pipe( uglify() )
+		.pipe( gulp.dest( 'build' ) )
 	;
 } );
 

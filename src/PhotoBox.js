@@ -9,12 +9,32 @@ class Photobox {
 	constructor( $element ) {
 
 		this.$element = $element;
+		this.count = $element.size();
 		this.index = null;
 
 		this.build();
 	}
 
 	build() {
+
+		let that = this;
+
+		let $window = $( window );
+
+		$window.keydown( function( e ) {
+
+			switch( e.keyCode ) {
+				case 27:
+					that.close();
+					break;
+				case 37:
+					that.openPrev();
+					break;
+				case 39:
+					that.openNext();
+					break;
+			}
+		} );
 
 		this.$overlay = $( '<div>' )
 			.addClass( 'tnt-photobox-overlay' )
@@ -73,28 +93,45 @@ class Photobox {
 
 	openByIndex( i ) {
 
-		let $element = this.$element.eq( i );
-		this.open( $element );
+		if( i >= 0 ) {
+			let $element = this.$element.eq(i);
+			this.open($element);
+		}
 	}
 
-	open( $element ) {
+	open( $current ) {
 
-		this.$overlay
-			.removeClass( 'hidden' )
-			.addClass( 'loading' )
-		;
+		let i = this.$element.index( $current ),
+			src = $current.attr( 'href' )
+			;
 
-		let i = this.$element.index( $element ),
-			src = $element.attr( 'href' )
-		;
+		if( i >= 0 ) {
 
-		$element.trigger( 'photobox:open', [ this, i, src ] );
+			if( i === 0 ) {
+				this.$prev.hide();
+			} else {
+				this.$prev.show();
+			}
 
-		this.index = i;
+			if( i === this.count - 1 ) {
+				this.$next.hide();
+			} else {
+				this.$next.show();
+			}
 
-		this.$box.empty();
+			this.$overlay
+				.removeClass( 'hidden' )
+				.addClass( 'loading' )
+			;
 
-		util.loadImage( src, util.proxy( this, this.installImage ) );
+			$current.trigger( 'photobox:open', [ this, i, src ] );
+
+			this.index = i;
+
+			this.$box.empty();
+
+			util.loadImage( src, util.proxy( this, this.installImage ) );
+		}
 	}
 
 	installImage( img ) {
