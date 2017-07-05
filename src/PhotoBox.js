@@ -1,6 +1,6 @@
 "use strict";
 
-const $ = require( 'jquery' ),
+var $ = require( 'jquery' ),
 	util = require( './utils' )
 ;
 
@@ -17,9 +17,9 @@ class Photobox {
 
 	build() {
 
-		let that = this;
+		var that = this;
 
-		let $window = $( window );
+		var $window = $( window );
 
 		$window.keydown( function( e ) {
 
@@ -94,14 +94,14 @@ class Photobox {
 	openByIndex( i ) {
 
 		if( i >= 0 ) {
-			let $element = this.$element.eq(i);
+			var $element = this.$element.eq(i);
 			this.open($element);
 		}
 	}
 
 	open( $current ) {
 
-		let i = this.$element.index( $current ),
+		var i = this.$element.index( $current ),
 			src = $current.attr( 'href' )
 			;
 
