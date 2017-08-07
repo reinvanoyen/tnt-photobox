@@ -1,6 +1,6 @@
 {
   "name": "tnt-photobox",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Super simple responsive lightbox",
   "main": "./distribution/PhotoBox.js",
   "scripts": {

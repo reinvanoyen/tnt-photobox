@@ -103,7 +103,7 @@ class Photobox {
 
 		var i = this.$element.index( $current ),
 			src = $current.attr( 'href' )
-			;
+		;
 
 		if( i >= 0 ) {
 
